@@ -31,7 +31,7 @@ export async function getPool(req, res) {
       res.send(pools);
     }
     catch {
-      res.sendStatus(500);
+      res.status(200).sendStatus(500);
     }  
 }
 
@@ -46,6 +46,35 @@ export async function getPoolChoices(req, res) {
     return res.status(200).send(poolChoices);
   } 
   catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+}
+
+export async function getPoolResult(req, res){
+  const resultPoolId = req.params.id;
+
+  try{
+    const poolChoices = await db.collection("choices").find({poolId: resultPoolId}).toArray();
+    
+    let mostVoted = poolChoices[0].votes;
+    let mostVotedChoice = poolChoices[0];
+    for(let i = 1; i < poolChoices.length; i++){
+      if(poolChoices[i].votes > mostVoted){
+        mostVoted = poolChoices[i].votes;
+        mostVotedChoice = poolChoices[i];
+      }
+    }
+
+    const pool = await db.collection("pools").find({_id: ObjectId(resultPoolId)}).toArray();   
+    const result = {...pool[0], result: {
+      title: mostVotedChoice.title,
+      votes: mostVotedChoice.votes
+    }};
+    return res.send(result);
+
+  }
+  catch(error){
     console.log(error);
     res.sendStatus(500);
   }
