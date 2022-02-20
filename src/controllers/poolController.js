@@ -36,3 +36,20 @@ export async function getPool(req, res) {
       res.sendStatus(500);
     }  
 }
+
+export async function getPoolChoices(req, res) {
+  const poolId = req.params.id;  
+
+  try {
+    const poolChoices = await db.collection("choices").find({ poolId: poolId }).toArray();
+
+    if (poolChoices.length === 0) {
+      return res.status(404).send("Enquete não existe");
+    }
+    return res.status(200).send(poolChoices);
+  } 
+  catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+}
