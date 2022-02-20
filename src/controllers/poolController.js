@@ -10,14 +10,13 @@ export async function postPool(req, res) {
     try {
       if (!expireAt) {
         let currentTime = dayjs().add(30, "day").format("YYYY-MM-D hh:mm");
-    
+
         const undatedPool = { title, expireAt: currentTime };
         await db.collection("pools").insertOne(undatedPool);
         return res.status(201).send(undatedPool);
       }
       
-      await db.collection("pools").insertOne(pool)
-  
+      await db.collection("pools").insertOne(pool);  
       res.status(201).send(pool);  
     }
     catch {
@@ -28,8 +27,7 @@ export async function postPool(req, res) {
 export async function getPool(req, res) {
 
     try {
-      const pools = await db.collection("pools").find().toArray();
-  
+      const pools = await db.collection("pools").find().toArray();  
       res.send(pools);
     }
     catch {
@@ -42,7 +40,6 @@ export async function getPoolChoices(req, res) {
 
   try {
     const poolChoices = await db.collection("choices").find({ poolId: poolId }).toArray();
-
     if (poolChoices.length === 0) {
       return res.status(404).send("Enquete não existe");
     }
