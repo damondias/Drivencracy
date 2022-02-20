@@ -31,7 +31,7 @@ export async function getPool(req, res) {
       res.send(pools);
     }
     catch {
-      res.status(200).sendStatus(500);
+      res.sendStatus(500);
     }  
 }
 
