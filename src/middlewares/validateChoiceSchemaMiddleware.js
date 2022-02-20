@@ -1,9 +1,9 @@
-import poolSchema from "../schemas/poolSchema.js";
+import choiceSchema from "../schemas/choiceSchema.js";
 
 export default function validateChoiceSchemaMiddleware(req, res, next) {
-    const pool = req.body;
+    const choice = req.body;
   
-    const validation = poolSchema.validate(pool);
+    const validation = choiceSchema.validate(choice);
   
     if (validation.error) {
       return res.sendStatus(422);
