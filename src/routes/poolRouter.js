@@ -6,7 +6,7 @@ const poolRouter = express.Router();
 
 poolRouter.post("/pool", validatePoolSchemaMiddleware, postPool);
 poolRouter.get("/pool", getPool);
-poolRouter.get("/pool/choice/:id", getPoolChoices);
+poolRouter.get("/pool/:id/choice", getPoolChoices);
 poolRouter.get("/pool/:id/result",getPoolResult);
   
 export default poolRouter;
